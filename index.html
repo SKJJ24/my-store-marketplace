@@ -201,6 +201,8 @@
             transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
         }
         .mobile-nav.active {
             right: 0;
@@ -1324,11 +1326,38 @@
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-map-marker-alt"></i> Delivery Address</label>
-                    <textarea id="regAddress" rows="2" placeholder="Your address"></textarea>
+                    <textarea id="regAddress" rows="2" placeholder="Street address, building, apartment number"></textarea>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-city"></i> City</label>
-                    <input type="text" id="regCity" placeholder="Harare">
+                    <select id="regCity">
+                        <option value="">Select your city</option>
+                        <option value="Harare">Harare</option>
+                        <option value="Bulawayo">Bulawayo</option>
+                        <option value="Chitungwiza">Chitungwiza</option>
+                        <option value="Mutare">Mutare</option>
+                        <option value="Gweru">Gweru</option>
+                        <option value="Kwekwe">Kwekwe</option>
+                        <option value="Kadoma">Kadoma</option>
+                        <option value="Masvingo">Masvingo</option>
+                        <option value="Chinhoyi">Chinhoyi</option>
+                        <option value="Marondera">Marondera</option>
+                        <option value="Norton">Norton</option>
+                        <option value="Chegutu">Chegutu</option>
+                        <option value="Bindura">Bindura</option>
+                        <option value="Zvishavane">Zvishavane</option>
+                        <option value="Victoria Falls">Victoria Falls</option>
+                        <option value="Redcliff">Redcliff</option>
+                        <option value="Hwange">Hwange</option>
+                        <option value="Rusape">Rusape</option>
+                        <option value="Chiredzi">Chiredzi</option>
+                        <option value="Kariba">Kariba</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group" id="otherCityGroup" style="display: none;">
+                    <label><i class="fas fa-map-pin"></i> Specify City/Town</label>
+                    <input type="text" id="regOtherCity" placeholder="Enter your city or town">
                 </div>
                 <button class="btn btn-primary" onclick="register()"><i class="fas fa-user-plus"></i> Create Account</button>
                 <div class="toggle-link">
@@ -1512,6 +1541,20 @@
             await loadCategories();
             await loadProducts();
             updateCartBadge();
+            
+            // City selector handler
+            const citySelect = document.getElementById('regCity');
+            const otherCityGroup = document.getElementById('otherCityGroup');
+            
+            if (citySelect) {
+                citySelect.addEventListener('change', function() {
+                    if (this.value === 'Other') {
+                        otherCityGroup.style.display = 'block';
+                    } else {
+                        otherCityGroup.style.display = 'none';
+                    }
+                });
+            }
         }
 
         async function checkAuth() {
@@ -1561,7 +1604,17 @@
             const phone = document.getElementById('regPhone').value.trim();
             const password = document.getElementById('regPassword').value;
             const address = document.getElementById('regAddress').value.trim();
-            const city = document.getElementById('regCity').value.trim();
+            let city = document.getElementById('regCity').value;
+            
+            // Check if "Other" was selected
+            if (city === 'Other') {
+                const otherCity = document.getElementById('regOtherCity').value.trim();
+                if (!otherCity) {
+                    showNotification('error', 'Missing City', 'Please specify your city or town');
+                    return;
+                }
+                city = otherCity;
+            }
 
             // Validation
             if (!name || !email || !phone || !password || !address || !city) {
@@ -1846,27 +1899,42 @@
             overlay.classList.toggle('active');
             hamburger.classList.toggle('active');
             
-            // Prevent body scroll when menu is open
+            // Prevent body scroll and pull-to-refresh when menu is open
             if (nav.classList.contains('active')) {
                 document.body.style.overflow = 'hidden';
+                document.body.style.position = 'fixed';
+                document.body.style.width = '100%';
+                document.body.style.touchAction = 'none';
             } else {
                 document.body.style.overflow = '';
+                document.body.style.position = '';
+                document.body.style.width = '';
+                document.body.style.touchAction = '';
             }
         }
 
-        // Close mobile nav when clicking outside
-        document.addEventListener('click', function(event) {
-            const nav = document.getElementById('mobileNav');
-            const hamburger = document.querySelector('.hamburger');
-            const overlay = document.getElementById('mobileNavOverlay');
+        // Close mobile nav when clicking overlay only (not touch events)
+        let touchStartX = 0;
+        let touchStartY = 0;
+        
+        document.getElementById('mobileNavOverlay').addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        
+        document.getElementById('mobileNavOverlay').addEventListener('touchend', function(e) {
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
             
-            if (nav && nav.classList.contains('active')) {
-                // Check if click is outside nav and not on hamburger
-                if (!nav.contains(event.target) && !hamburger.contains(event.target)) {
-                    toggleMobileNav();
-                }
+            // Only close if it's a tap (not a scroll)
+            const deltaX = Math.abs(touchEndX - touchStartX);
+            const deltaY = Math.abs(touchEndY - touchStartY);
+            
+            if (deltaX < 10 && deltaY < 10) {
+                // It's a tap, close the menu
+                toggleMobileNav();
             }
-        });
+        }, { passive: true });
 
         function updateCartDisplay() {
             const container = document.getElementById('cartItems');
