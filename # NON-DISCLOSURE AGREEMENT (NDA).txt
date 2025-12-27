@@ -1,0 +1,162 @@
+# NON-DISCLOSURE AGREEMENT (NDA)
+
+**Date:** ________________
+
+**Between:**
+
+**Party 1 (Disclosing Party):**
+- Name: ________________________________
+- Address: ________________________________
+- Email: ________________________________
+
+**AND**
+
+**Party 2 (Receiving Party):**
+- Name: ________________________________
+- Address: ________________________________
+- Email: ________________________________
+
+---
+
+## 1. PURPOSE
+
+This Agreement is made for the purpose of discussing a potential business partnership related to an e-commerce marketplace platform.
+
+---
+
+## 2. CONFIDENTIAL INFORMATION
+
+Confidential Information includes, but is not limited to:
+
+- Business plans and strategies
+- Technical information and source code
+- Customer data and user information
+- Financial information and projections
+- Marketing strategies and plans
+- Database structures and designs
+- Any other information marked as "Confidential"
+
+---
+
+## 3. OBLIGATIONS OF RECEIVING PARTY
+
+The Receiving Party agrees to:
+
+a) Keep all Confidential Information strictly confidential
+b) Not disclose Confidential Information to any third party without written consent
+c) Use Confidential Information only for the purpose stated above
+d) Protect the information with the same degree of care used for their own confidential information
+e) Not copy, reproduce, or reverse engineer any materials or systems
+
+---
+
+## 4. EXCLUSIONS
+
+This Agreement does not apply to information that:
+
+a) Was already known to the Receiving Party before disclosure
+b) Is or becomes publicly available through no fault of the Receiving Party
+c) Is independently developed by the Receiving Party
+d) Is rightfully received from a third party without breach of this Agreement
+
+---
+
+## 5. TERM
+
+This Agreement shall remain in effect for a period of **[2/3/5] years** from the date of signing, or until terminated by written notice by either party.
+
+The obligations regarding Confidential Information shall survive termination for an additional **[2/3/5] years**.
+
+---
+
+## 6. RETURN OF MATERIALS
+
+Upon request or termination of discussions, the Receiving Party agrees to:
+
+- Return or destroy all Confidential Information
+- Provide written confirmation of destruction if requested
+- Delete all electronic copies and backups
+
+---
+
+## 7. NO PARTNERSHIP
+
+This Agreement does not:
+
+- Create a partnership or joint venture
+- Obligate either party to enter into any business relationship
+- Grant any license or rights to intellectual property
+
+---
+
+## 8. REMEDIES
+
+Both parties acknowledge that:
+
+- Breach of this Agreement may cause irreparable harm
+- Monetary damages may be insufficient remedy
+- The Disclosing Party may seek injunctive relief in addition to other remedies
+
+---
+
+## 9. GOVERNING LAW
+
+This Agreement shall be governed by the laws of **[Zimbabwe / Your Jurisdiction]**.
+
+---
+
+## 10. ENTIRE AGREEMENT
+
+This Agreement constitutes the entire agreement between the parties regarding confidentiality and supersedes all prior discussions or agreements.
+
+---
+
+## SIGNATURES
+
+**Party 1 (Disclosing Party):**
+
+Signature: ________________________________
+
+Name: ________________________________
+
+Date: ________________________________
+
+
+**Party 2 (Receiving Party):**
+
+Signature: ________________________________
+
+Name: ________________________________
+
+Date: ________________________________
+
+---
+
+## WITNESS (Optional but recommended):
+
+Signature: ________________________________
+
+Name: ________________________________
+
+Date: ________________________________
+
+---
+
+**IMPORTANT NOTES:**
+
+1. **Customize the terms** - Adjust timeframes and specific details to your needs
+2. **Legal Review** - Have a lawyer review this before signing
+3. **Both parties keep copies** - Each party should have a signed original
+4. **Be specific** - Clearly define what you're protecting
+5. **Not a substitute** - This is a template; seek legal advice for your situation
+
+**Recommended Term Lengths:**
+- For short-term discussions: 2 years
+- For medium-term partnerships: 3 years  
+- For long-term ventures: 5 years
+
+**Before Sharing Information:**
+- Both parties must sign
+- Keep detailed records of what you share
+- Mark documents as "Confidential"
+- Only share what's necessary for discussions
