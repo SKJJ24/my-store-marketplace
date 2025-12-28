@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="MyStoreZW - Zimbabwe's leading online marketplace. Shop electronics, fashion, home goods and more with secure payment options.">
     <meta name="keywords" content="Zimbabwe, online shopping, marketplace, ecommerce, EcoCash, OneMoney">
@@ -13,13 +13,39 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f5f5f5;
             line-height: 1.6;
             margin: 0;
             padding: 0;
+            overscroll-behavior-y: contain;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        body.mobile {
+            padding-bottom: 80px;
+        }
+        
+        /* Performance optimizations */
+        .product-card, .chip, .btn, .cart-icon, .mobile-nav-item, .bottom-nav-item, 
+        .qty-btn, .modal-close, .close-cart, .hamburger, .auth-btn, .logo {
+            will-change: transform;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
         
         /* Splash Screen */
@@ -140,6 +166,19 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .logo:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+        .logo:active {
+            transform: scale(0.98);
+        }
+        .logo i {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .logo:hover i {
+            transform: rotate(360deg) scale(1.1);
         }
         .search-bar {
             flex: 1;
@@ -153,6 +192,11 @@
             border-radius: 25px;
             border: none;
             font-size: 15px;
+            transition: transform 0.2s;
+        }
+        .search-bar input:focus {
+            outline: none;
+            transform: scale(1.02);
         }
         .search-bar i {
             position: absolute;
@@ -173,6 +217,10 @@
             cursor: pointer;
             padding: 8px;
             z-index: 1001;
+            transition: transform 0.2s;
+        }
+        .hamburger:active {
+            transform: scale(0.9);
         }
         .hamburger span {
             width: 25px;
@@ -198,7 +246,7 @@
             height: 100vh;
             background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
             box-shadow: -5px 0 25px rgba(0,0,0,0.15);
-            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
@@ -207,31 +255,30 @@
         .mobile-nav.active {
             right: 0;
         }
-        .mobile-nav-close-btn {
+        .mobile-nav-close {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgba(0,0,0,0.1);
-            border: none;
-            color: white;
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 24px;
-            transition: all 0.3s;
-            z-index: 10;
+            z-index: 10001;
+            transition: all 0.2s;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
-        .mobile-nav-close-btn:hover {
-            background: rgba(0,0,0,0.2);
-            transform: rotate(90deg) scale(1.1);
+        .mobile-nav-close:active {
+            transform: rotate(90deg) scale(0.9);
+            background: rgba(255, 255, 255, 0.4);
         }
-        .mobile-nav-close-btn:active {
-            transform: rotate(90deg) scale(0.95);
+        .mobile-nav-close i {
+            font-size: 20px;
+            color: white;
         }
         .mobile-nav-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -271,12 +318,24 @@
             align-items: center;
             gap: 15px;
             font-size: 15px;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border-left: 4px solid transparent;
             position: relative;
         }
-        .mobile-nav-item:hover {
-            background: rgba(102, 126, 234, 0.08);
+        .mobile-nav-item::after {
+            content: '';
+            position: absolute;
+            right: 20px;
+            width: 0;
+            height: 2px;
+            background: #667eea;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .mobile-nav-item:hover::after {
+            width: 30px;
+        }
+        .mobile-nav-item:active {
+            background: rgba(102, 126, 234, 0.15);
             border-left-color: #667eea;
             padding-left: 24px;
         }
@@ -288,6 +347,10 @@
             justify-content: center;
             color: #667eea;
             font-size: 18px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .mobile-nav-item:active i {
+            transform: scale(1.2) rotate(5deg);
         }
         .mobile-nav-item.user-item {
             background: linear-gradient(135deg, #667eea15, #764ba215);
@@ -308,7 +371,7 @@
             border-radius: 8px;
             background: #fef2f2;
         }
-        .mobile-nav-item.logout-item:hover {
+        .mobile-nav-item.logout-item:active {
             background: #fee2e2;
             border-color: #dc2626;
         }
@@ -358,10 +421,13 @@
             position: relative;
             cursor: pointer;
             font-size: 24px;
-            transition: transform 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .cart-icon:hover {
-            transform: scale(1.1);
+            transform: scale(1.15) rotate(5deg);
+        }
+        .cart-icon:active {
+            transform: scale(0.95);
         }
         .cart-badge {
             position: absolute;
@@ -377,6 +443,15 @@
             justify-content: center;
             font-size: 12px;
             font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
         }
         .auth-btn {
             padding: 8px 20px;
@@ -387,11 +462,16 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 14px;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         .auth-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.95);
+        }
+        .auth-btn:active {
+            transform: translateY(-1px) scale(0.98);
         }
         .container {
             max-width: 1400px;
@@ -422,19 +502,45 @@
             background: #f0f0f0;
             border-radius: 20px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 2px solid transparent;
             font-size: 14px;
+            -webkit-user-select: none;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+        .chip::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
         }
         .chip:hover {
             background: #667eea;
             color: white;
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        .chip:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        .chip:active {
+            transform: translateY(-1px) scale(0.98);
         }
         .chip.active {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border-color: #764ba2;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
         .products-grid {
             display: grid;
@@ -447,12 +553,32 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
+            position: relative;
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
         }
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.25);
+        }
+        .product-card:hover::before {
+            opacity: 1;
+        }
+        .product-card:active {
+            transform: translateY(-4px) scale(0.99);
+            transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .product-image {
             width: 100%;
@@ -464,6 +590,10 @@
             font-size: 60px;
             overflow: hidden;
             position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .product-card:hover .product-image {
+            transform: scale(1.05);
         }
         .product-image img {
             width: 100%;
@@ -471,6 +601,10 @@
             object-fit: contain;
             object-position: center;
             padding: 10px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
         }
         .product-discount {
             position: absolute;
@@ -487,18 +621,6 @@
         }
         .product-info {
             padding: 15px;
-        }
-        .product-condition-badge {
-            background: #dbeafe;
-            color: #1e40af;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 8px;
         }
         .product-name {
             font-weight: 600;
@@ -539,27 +661,143 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
             font-size: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        .btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+        .btn:active {
+            transform: scale(0.96);
         }
         .btn-primary {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
         .btn-primary:hover {
-            opacity: 0.9;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
         .btn-secondary {
             background: #f0f0f0;
             color: #333;
         }
+        .btn-secondary:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+        
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+            z-index: 998;
+            border-top: 1px solid #e5e7eb;
+        }
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #666;
+            text-decoration: none;
+            font-size: 11px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+            position: relative;
+        }
+        .bottom-nav-item::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transform: translateX(-50%);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 3px 3px 0 0;
+        }
+        .bottom-nav-item:active {
+            transform: scale(0.92);
+            background: #f0f0f0;
+        }
+        .bottom-nav-item.active {
+            color: #667eea;
+        }
+        .bottom-nav-item.active::before {
+            width: 60%;
+        }
+        .bottom-nav-item i {
+            font-size: 22px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bottom-nav-item.active i {
+            transform: scale(1.15) translateY(-2px);
+        }
+        .bottom-nav-item:active i {
+            transform: scale(0.95);
+        }
+        .bottom-nav-badge {
+            position: absolute;
+            top: 4px;
+            right: 8px;
+            background: #f5576c;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 10px;
+            font-weight: bold;
+            min-width: 18px;
+            text-align: center;
+        }
+        .coming-soon-badge {
+            position: absolute;
+            top: 2px;
+            right: 6px;
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            border-radius: 8px;
+            padding: 2px 5px;
+            font-size: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
         .cart-sidebar {
             position: fixed;
             right: -400px;
@@ -590,15 +828,16 @@
             color: white;
             font-size: 24px;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.2s;
         }
-        .close-cart:hover {
-            transform: rotate(90deg);
+        .close-cart:active {
+            transform: scale(0.9);
         }
         .cart-items {
             flex: 1;
             overflow-y: auto;
             padding: 20px;
+            -webkit-overflow-scrolling: touch;
         }
         .cart-item {
             display: flex;
@@ -650,12 +889,19 @@
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .qty-btn:hover {
             background: #667eea;
             color: white;
             border-color: #667eea;
+            transform: scale(1.1);
+        }
+        .qty-btn:active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: scale(0.95);
         }
         .cart-footer {
             padding: 20px;
@@ -679,15 +925,14 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
-        .checkout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        .checkout-btn:active {
+            transform: scale(0.98);
         }
         .modal {
             display: none;
@@ -701,9 +946,20 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .modal.active {
             display: flex;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
         .modal-content {
             background: white;
@@ -714,6 +970,19 @@
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
+            -webkit-overflow-scrolling: touch;
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
         .modal-close {
             position: absolute;
@@ -724,10 +993,11 @@
             font-size: 24px;
             cursor: pointer;
             color: #999;
-            transition: color 0.3s;
+            transition: all 0.2s;
         }
-        .modal-close:hover {
+        .modal-close:active {
             color: #333;
+            transform: scale(0.9);
         }
         .modal-content h2 {
             margin-bottom: 20px;
@@ -755,7 +1025,7 @@
             border: 2px solid #e5e7eb;
             border-radius: 8px;
             font-size: 14px;
-            transition: border-color 0.3s;
+            transition: border-color 0.2s;
         }
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
             outline: none;
@@ -846,10 +1116,10 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            animation: slideIn 0.3s ease;
+            animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             max-width: 350px;
         }
-        @keyframes slideIn {
+        @keyframes slideInRight {
             from {
                 transform: translateX(400px);
                 opacity: 0;
@@ -860,9 +1130,9 @@
             }
         }
         .notification.hide {
-            animation: slideOut 0.3s ease;
+            animation: slideOutRight 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        @keyframes slideOut {
+        @keyframes slideOutRight {
             from {
                 transform: translateX(0);
                 opacity: 1;
@@ -874,6 +1144,18 @@
         }
         .notification-icon {
             font-size: 24px;
+            animation: bounceIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
         .notification-content {
             flex: 1;
@@ -892,6 +1174,12 @@
         }
         .notification.error {
             border-left: 4px solid #ef4444;
+        }
+        .notification.info {
+            border-left: 4px solid #3b82f6;
+        }
+        .notification.warning {
+            border-left: 4px solid #f59e0b;
         }
         .toggle-link {
             text-align: center;
@@ -915,10 +1203,10 @@
             background: #f5f5f5;
             margin-bottom: 20px;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: transform 0.2s;
         }
-        .product-detail-image:hover {
-            transform: scale(1.02);
+        .product-detail-image:active {
+            transform: scale(0.98);
         }
         .image-thumbnails {
             display: flex;
@@ -926,6 +1214,7 @@
             margin-bottom: 20px;
             overflow-x: auto;
             padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
         }
         .image-thumbnails::-webkit-scrollbar {
             height: 6px;
@@ -943,11 +1232,11 @@
             border-radius: 8px;
             cursor: pointer;
             border: 2px solid #ddd;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
-        .image-thumbnails img:hover {
+        .image-thumbnails img:active {
             border-color: #667eea;
-            transform: scale(1.05);
+            transform: scale(0.95);
         }
         .image-thumbnails img.active {
             border-color: #667eea;
@@ -964,18 +1253,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-        .condition-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 8px 16px;
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: white;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
         }
         @media (max-width: 768px) {
             .cart-sidebar {
@@ -1060,6 +1337,9 @@
             .seller-badge {
                 padding: 6px 12px;
             }
+            .bottom-nav {
+                display: flex;
+            }
         }
         @media (max-width: 480px) {
             .logo {
@@ -1108,37 +1388,15 @@
             .header-content {
                 padding: 0 10px;
             }
- .mobile-nav-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10001;
-            transition: all 0.3s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
-
-        .mobile-nav-close:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: rotate(90deg) scale(1.1);
+        @media (min-width: 769px) {
+            .bottom-nav {
+                display: none;
+            }
+            body {
+                padding-bottom: 0;
+            }
         }
-
-        .mobile-nav-close:active {
-            transform: rotate(90deg) scale(0.95);
-        }
-
-        .mobile-nav-close i {
-            font-size: 20px;
-            color: white;
-        }        }
     </style>
 </head>
 <body>
@@ -1192,15 +1450,13 @@
     </div>
 
     <!-- Mobile Navigation -->
-    <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileNav()"></div>
     <div class="mobile-nav" id="mobileNav">
         <div class="mobile-nav-header">
-   <button class="mobile-nav-close" onclick="toggleMobileNav()">
-        <i class="fas fa-times"></i>
-    </button>
-
             <h3><i class="fas fa-shopping-bag"></i> MyStoreZW</h3>
             <p>Zimbabwe's #1 Marketplace</p>
+            <button class="mobile-nav-close" onclick="toggleMobileNav()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
         
         <!-- User Section -->
@@ -1276,6 +1532,32 @@
             <p>Zimbabwe's Trusted Marketplace</p>
         </div>
     </div>
+
+    <!-- Bottom Navigation Bar (Mobile Only) -->
+    <nav class="bottom-nav">
+        <a href="#" class="bottom-nav-item active" id="homeNavBtn" onclick="scrollToTop(); setActiveNav('home')">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="bottom-nav-item" id="shopsNavBtn" onclick="showComingSoon()">
+            <i class="fas fa-store-alt"></i>
+            <span>Shops</span>
+            <span class="coming-soon-badge">Soon</span>
+        </a>
+        <a href="seller-portal.html" class="bottom-nav-item" id="sellNavBtn">
+            <i class="fas fa-plus-circle"></i>
+            <span>Sell</span>
+        </a>
+        <a href="#" class="bottom-nav-item" id="cartNavBtn" onclick="toggleCart(); setActiveNav('cart')">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Cart</span>
+            <span class="bottom-nav-badge" id="bottomCartBadge">0</span>
+        </a>
+        <a href="#" class="bottom-nav-item" id="accountNavBtn" onclick="showAccountSection(); setActiveNav('account')">
+            <i class="fas fa-user-circle"></i>
+            <span>Account</span>
+        </a>
+    </nav>
 
     <div class="container">
         <div class="categories">
@@ -1604,7 +1886,6 @@
             await loadProducts();
             updateCartBadge();
             
-            // City selector handler
             const citySelect = document.getElementById('regCity');
             const otherCityGroup = document.getElementById('otherCityGroup');
             
@@ -1631,7 +1912,6 @@
                         document.getElementById('userMenu').style.display = 'flex';
                         document.getElementById('userName').textContent = user.full_name;
                         
-                        // Update mobile nav
                         document.getElementById('mobileAuthSection').style.display = 'none';
                         document.getElementById('mobileUserSection').style.display = 'block';
                         document.getElementById('mobileUserName').textContent = user.full_name;
@@ -1668,7 +1948,6 @@
             const address = document.getElementById('regAddress').value.trim();
             let city = document.getElementById('regCity').value;
             
-            // Check if "Other" was selected
             if (city === 'Other') {
                 const otherCity = document.getElementById('regOtherCity').value.trim();
                 if (!otherCity) {
@@ -1678,7 +1957,6 @@
                 city = otherCity;
             }
 
-            // Validation
             if (!name || !email || !phone || !password || !address || !city) {
                 showNotification('error', 'Missing Fields', 'Please fill all required fields');
                 return;
@@ -1705,7 +1983,6 @@
             }
 
             try {
-                // Check if email already exists
                 const { data: existingUser } = await sb
                     .from('users')
                     .select('id')
@@ -1737,7 +2014,6 @@
                 document.getElementById('userMenu').style.display = 'flex';
                 document.getElementById('userName').textContent = user.full_name;
                 
-                // Update mobile nav
                 document.getElementById('mobileAuthSection').style.display = 'none';
                 document.getElementById('mobileUserSection').style.display = 'block';
                 document.getElementById('mobileUserName').textContent = user.full_name;
@@ -1775,7 +2051,6 @@
                 document.getElementById('userMenu').style.display = 'flex';
                 document.getElementById('userName').textContent = user.full_name;
                 
-                // Update mobile nav
                 document.getElementById('mobileAuthSection').style.display = 'none';
                 document.getElementById('mobileUserSection').style.display = 'block';
                 document.getElementById('mobileUserName').textContent = user.full_name;
@@ -1795,7 +2070,6 @@
             document.getElementById('authButtons').style.display = 'block';
             document.getElementById('userMenu').style.display = 'none';
             
-            // Update mobile nav
             document.getElementById('mobileAuthSection').style.display = 'block';
             document.getElementById('mobileUserSection').style.display = 'none';
             
@@ -1834,7 +2108,6 @@
                     return;
                 }
                 
-                // Randomize products for better variety
                 allProducts = (products || []).sort(() => Math.random() - 0.5);
                 displayProducts(allProducts);
             } catch (error) {
@@ -1950,53 +2223,32 @@
             const total = cart.reduce((sum, item) => sum + item.quantity, 0);
             document.getElementById('cartBadge').textContent = total;
             document.getElementById('mobileCartCount').textContent = total;
+            document.getElementById('bottomCartBadge').textContent = total;
+            
+            if (total === 0) {
+                document.getElementById('bottomCartBadge').style.display = 'none';
+            } else {
+                document.getElementById('bottomCartBadge').style.display = 'flex';
+            }
         }
 
         function toggleMobileNav() {
             const nav = document.getElementById('mobileNav');
-            const overlay = document.getElementById('mobileNavOverlay');
             const hamburger = document.querySelector('.hamburger');
             
             nav.classList.toggle('active');
-            overlay.classList.toggle('active');
             hamburger.classList.toggle('active');
             
-            // Prevent body scroll and pull-to-refresh when menu is open
             if (nav.classList.contains('active')) {
                 document.body.style.overflow = 'hidden';
                 document.body.style.position = 'fixed';
                 document.body.style.width = '100%';
-                document.body.style.touchAction = 'none';
             } else {
                 document.body.style.overflow = '';
                 document.body.style.position = '';
                 document.body.style.width = '';
-                document.body.style.touchAction = '';
             }
         }
-
-        // Close mobile nav when clicking overlay only (not touch events)
-        let touchStartX = 0;
-        let touchStartY = 0;
-        
-        document.getElementById('mobileNavOverlay').addEventListener('touchstart', function(e) {
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-        
-        document.getElementById('mobileNavOverlay').addEventListener('touchend', function(e) {
-            const touchEndX = e.changedTouches[0].clientX;
-            const touchEndY = e.changedTouches[0].clientY;
-            
-            // Only close if it's a tap (not a scroll)
-            const deltaX = Math.abs(touchEndX - touchStartX);
-            const deltaY = Math.abs(touchEndY - touchStartY);
-            
-            if (deltaX < 10 && deltaY < 10) {
-                // It's a tap, close the menu
-                toggleMobileNav();
-            }
-        }, { passive: true });
 
         function updateCartDisplay() {
             const container = document.getElementById('cartItems');
@@ -2145,10 +2397,15 @@
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
             
-            const icon = type === 'success' ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-exclamation-circle"></i>';
+            const iconMap = {
+                'success': '<i class="fas fa-check-circle"></i>',
+                'error': '<i class="fas fa-exclamation-circle"></i>',
+                'info': '<i class="fas fa-info-circle"></i>',
+                'warning': '<i class="fas fa-exclamation-triangle"></i>'
+            };
             
             notification.innerHTML = `
-                <div class="notification-icon">${icon}</div>
+                <div class="notification-icon">${iconMap[type] || iconMap.info}</div>
                 <div class="notification-content">
                     <div class="notification-title">${title}</div>
                     <div class="notification-message">${message}</div>
@@ -2183,7 +2440,6 @@
             checkoutBtn.disabled = true;
 
             try {
-                // Validate cart items
                 const invalidItems = cart.filter(item => !item.seller_id || !item.id || !item.price);
                 if (invalidItems.length > 0) {
                     showNotification('error', 'Invalid Items', 'Some products in your cart are invalid. Please refresh and try again.');
@@ -2192,7 +2448,6 @@
                     return;
                 }
 
-                // Verify stock availability
                 for (const item of cart) {
                     const { data: product, error: fetchError } = await sb
                         .from('products')
@@ -2223,7 +2478,6 @@
                     }
                 }
 
-                // Group by seller
                 const ordersBySeller = {};
                 cart.forEach(item => {
                     if (!ordersBySeller[item.seller_id]) {
@@ -2234,7 +2488,6 @@
 
                 let orderCount = 0;
 
-                // Create orders
                 for (const sellerId in ordersBySeller) {
                     const items = ordersBySeller[sellerId];
                     const subtotal = items.reduce((sum, item) => sum + (parseFloat(item.price) * parseInt(item.quantity)), 0);
@@ -2264,7 +2517,6 @@
 
                     if (error) throw error;
 
-                    // Create order items and update stock
                     for (const item of items) {
                         await sb.from('order_items').insert({
                             order_id: order.id,
@@ -2319,13 +2571,67 @@
             }
         }
 
+        // Bottom Nav Functions
+        function setActiveNav(nav) {
+            document.querySelectorAll('.bottom-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.getElementById(nav + 'NavBtn').classList.add('active');
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showAccountSection() {
+            if (!currentUser) {
+                showAuthModal();
+            } else {
+                toggleMobileNav();
+            }
+        }
+
+        function showComingSoon() {
+            showNotification('info', 'Coming Soon! 🎉', 'Custom Shops feature is launching soon! Shop from your favorite brands like Food Lovers, Spar, and more all in one place.');
+        }
+
         window.addEventListener('click', function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.classList.remove('active');
             }
         });
 
-        window.addEventListener('DOMContentLoaded', init);
+        // Prevent pull-to-refresh on mobile
+        let touchStartY = 0;
+        document.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', function(e) {
+            const touchY = e.touches[0].clientY;
+            const touchDelta = touchY - touchStartY;
+            if (touchDelta > 0 && window.scrollY === 0) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            init();
+            
+            // Add mobile class to body if on mobile
+            if (window.innerWidth <= 768) {
+                document.body.classList.add('mobile');
+            }
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth <= 768) {
+                    document.body.classList.add('mobile');
+                } else {
+                    document.body.classList.remove('mobile');
+                }
+            });
+        });
     </script>
 </body>
 </html>
