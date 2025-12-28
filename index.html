@@ -1,4 +1,4 @@
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -212,6 +212,12 @@
             padding: 25px 20px;
             color: white;
             margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mobile-nav-header-content {
+            flex: 1;
         }
         .mobile-nav-header h3 {
             font-size: 20px;
@@ -223,6 +229,25 @@
         .mobile-nav-header p {
             font-size: 13px;
             opacity: 0.9;
+        }
+        .mobile-nav-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        .mobile-nav-close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
         }
         .mobile-nav-section {
             margin: 10px 0;
