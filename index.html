@@ -1108,31 +1108,37 @@
             .header-content {
                 padding: 0 10px;
             }
-.mobile-nav-close {
-    position: absolute;
-    top: 20px;
-    left: 16px;
-
-    width: 36px;
-    height: 36px;
-
-    border-radius: 50%;
-    border: none;
-
-    background: rgba(255, 255, 255, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-    z-index: 10;
-}
-
-.mobile-nav-close i {
-    font-size: 20px;
-    color: white;
-}
+ .mobile-nav-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10001;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
+
+        .mobile-nav-close:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .mobile-nav-close:active {
+            transform: rotate(90deg) scale(0.95);
+        }
+
+        .mobile-nav-close i {
+            font-size: 20px;
+            color: white;
+        }        }
     </style>
 </head>
 <body>
@@ -1192,6 +1198,7 @@
    <button class="mobile-nav-close" onclick="toggleMobileNav()">
         <i class="fas fa-times"></i>
     </button>
+
             <h3><i class="fas fa-shopping-bag"></i> MyStoreZW</h3>
             <p>Zimbabwe's #1 Marketplace</p>
         </div>
