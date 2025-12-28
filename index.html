@@ -207,17 +207,38 @@
         .mobile-nav.active {
             right: 0;
         }
+        .mobile-nav-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.1);
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .mobile-nav-close-btn:hover {
+            background: rgba(0,0,0,0.2);
+            transform: rotate(90deg) scale(1.1);
+        }
+        .mobile-nav-close-btn:active {
+            transform: rotate(90deg) scale(0.95);
+        }
         .mobile-nav-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 25px 20px;
             color: white;
             margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .mobile-nav-header-content {
-            flex: 1;
+            position: relative;
         }
         .mobile-nav-header h3 {
             font-size: 20px;
@@ -225,29 +246,11 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            padding-right: 50px;
         }
         .mobile-nav-header p {
             font-size: 13px;
             opacity: 0.9;
-        }
-        .mobile-nav-close {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.3s;
-            flex-shrink: 0;
-        }
-        .mobile-nav-close:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(90deg);
         }
         .mobile-nav-section {
             margin: 10px 0;
@@ -1105,6 +1108,30 @@
             .header-content {
                 padding: 0 10px;
             }
+.mobile-nav-close {
+    position: absolute;
+    top: 20px;
+    left: 16px;
+
+    width: 36px;
+    height: 36px;
+
+    border-radius: 50%;
+    border: none;
+
+    background: rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    z-index: 10;
+}
+
+.mobile-nav-close i {
+    font-size: 20px;
+    color: white;
+}
         }
     </style>
 </head>
@@ -1162,6 +1189,9 @@
     <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileNav()"></div>
     <div class="mobile-nav" id="mobileNav">
         <div class="mobile-nav-header">
+   <button class="mobile-nav-close" onclick="toggleMobileNav()">
+        <i class="fas fa-times"></i>
+    </button>
             <h3><i class="fas fa-shopping-bag"></i> MyStoreZW</h3>
             <p>Zimbabwe's #1 Marketplace</p>
         </div>
